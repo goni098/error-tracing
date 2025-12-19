@@ -33,17 +33,16 @@ fn subscribe_tracing() {
 
     let bins = ["err_trace", "http_server"];
 
-    let mut bins_filter = EnvFilter::from_default_env();
-
-    for bin in bins {
-        bins_filter = bins_filter.add_directive(bin.parse().unwrap());
-    }
-
     let out_layer = fmt::layer()
         .with_writer(std::io::stdout)
-        .with_filter(bins_filter)
+        .with_filter(
+            bins.iter()
+                .fold(EnvFilter::from_default_env(), |filter, bin| {
+                    filter.add_directive(bin.parse().unwrap())
+                }),
+        )
         .with_filter(filter::filter_fn(|metadata| {
-            !matches!(*metadata.level(), Level::ERROR)
+            *metadata.level() != Level::ERROR
         }));
 
     let err_layer = fmt::layer()

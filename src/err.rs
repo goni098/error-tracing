@@ -1,38 +1,37 @@
 use std::num::ParseIntError;
 
-use thiserror::Error;
 use tracing_error::SpanTrace;
 
 #[derive(Debug, thiserror::Error)]
 #[error("{error}\nTrace:\n{trace}")]
-pub struct TracedError<E> {
-    pub error: E,
-    pub trace: SpanTrace,
+pub struct TracedAppErr {
+    error: AppErr,
+    trace: SpanTrace,
 }
 
-impl<E> From<E> for TracedError<AppError>
+impl<E> From<E> for TracedAppErr
 where
-    E: Into<AppError>,
+    E: Into<AppErr>,
 {
     fn from(source: E) -> Self {
-        TracedError {
+        TracedAppErr {
             error: source.into(),
             trace: SpanTrace::capture(),
         }
     }
 }
 
-#[derive(Debug, Error)]
-#[allow(dead_code)]
-pub enum AppError {
+#[derive(Debug, thiserror::Error)]
+pub enum AppErr {
     #[error("I/O error: {0}")]
     Io(#[from] std::io::Error),
 
     #[error("invalid config: {0}")]
+    #[allow(dead_code)]
     Config(String),
 
     #[error("ParseIntError: {0}")]
     ParseInt(#[from] ParseIntError),
 }
 
-pub type Rs<T> = Result<T, TracedError<AppError>>;
+pub type Rs<T> = Result<T, TracedAppErr>;

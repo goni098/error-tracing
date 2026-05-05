@@ -76,7 +76,7 @@ async fn bootstrap(
     });
 
     let payload_subscribe = Payload::Owned(
-        serde_json::to_vec(&msg_subscribe).unwrap_or_else(|_| panic!("invalid msg_subcribe")),
+        serde_json::to_vec(&msg_subscribe).unwrap_or_else(|_| panic!("invalid msg_subscribe")),
     );
 
     ws.write_frame(Frame::text(payload_subscribe)).await?;

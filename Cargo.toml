@@ -89,13 +89,13 @@ bs58 = { version = "0.5" }
 base64 = { version = "0.22" }
 
 # evm
-alloy = { version = "1" }
+alloy = { version = "2" }
 
 # enums util
 strum = { version = "0.28", features = ["derive"] }
 
 # cryptographic
-sha2 = { version = "0.10" }
+sha2 = { version = "0.11" }
 
 # time 
 chrono = { version = "0.4" }

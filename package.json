@@ -6,7 +6,9 @@
 	"scripts": {
 		"prisma": "prisma",
 		"db:push": "prisma db push --schema=crates/database/prisma/schema.prisma",
-		"seagen": "rm -rf _generated_ && sea generate entity -o _generated_ --with-serde serialize"
+		"seagen": "rm -rf _generated_ && sea generate entity -o _generated_ --with-serde serialize",
+		"spell": "typos",
+		"spell:fix": "typos --write-changes"
 	},
 	"keywords": [],
 	"author": "",

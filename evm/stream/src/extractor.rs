@@ -5,7 +5,7 @@ use serde_json::Value;
 use ws_client::FrameCollector;
 
 #[derive(Deserialize)]
-struct InCommingLogResutMsg {
+struct IncomingLogResultMsg {
     params: LogResult,
 }
 
@@ -20,9 +20,9 @@ pub async fn extract_frame(
 ) -> Result<Option<Log>, WebSocketError> {
     match frame.opcode {
         OpCode::Text => {
-            let log = serde_json::from_slice::<InCommingLogResutMsg>(frame.payload.as_ref())
+            let log = serde_json::from_slice::<IncomingLogResultMsg>(frame.payload.as_ref())
                 .ok()
-                .and_then(|incomming| serde_json::from_value(incomming.params.result).ok());
+                .and_then(|incoming| serde_json::from_value(incoming.params.result).ok());
 
             Ok(log)
         }

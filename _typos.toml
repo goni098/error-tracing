@@ -1,0 +1,22 @@
+[files]
+extend-exclude = [
+    "target/",
+    "node_modules/",
+    "_generated_/",
+    "*.lock",
+    "pnpm-lock.yaml",
+    "Cargo.lock",
+    "solana/lib/idls/",
+    "evm/lib/abis/",
+]
+
+[default]
+extend-ignore-re = [
+    # hex addresses and hashes
+    "0x[0-9a-fA-F]+",
+]
+
+[default.extend-words]
+# Blockchain / project-specific terms that typos flags as misspellings
+pumpfun = "pumpfun"
+uniswap = "uniswap"

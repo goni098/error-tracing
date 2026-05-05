@@ -48,12 +48,12 @@ async fn main() -> Rs<()> {
 
 async fn scan(db: &DatabaseConnection, client: &RpcClient, cursor: &mut Signature) -> Rs<()> {
     let sigs = retrieve_txs(client, cursor).await?;
-    let next_curor = sigs.first().and_then(|tx| tx.signature.parse().ok());
+    let next_cursor = sigs.first().and_then(|tx| tx.signature.parse().ok());
 
     consume_txs(db, client, sigs).await;
 
-    if let Some(next_curor) = next_curor {
-        *cursor = next_curor;
+    if let Some(next_cursor) = next_cursor {
+        *cursor = next_cursor;
         repositories::settings::set(db, Setting::SolCurrentScannedSignature, cursor.to_string())
             .await?;
     }

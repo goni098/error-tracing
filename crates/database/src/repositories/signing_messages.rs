@@ -15,7 +15,7 @@ where
 {
     if message.len() > 98 {
         return Err(AppErr::custom(
-            "signing message's lenght can not greater than 98",
+            "signing message's length can not greater than 98",
         ));
     }
 

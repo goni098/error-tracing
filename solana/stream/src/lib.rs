@@ -1,14 +1,14 @@
 use database::{repositories::log_memos, sea_orm::DatabaseConnection};
 use futures_util::future::try_join_all;
 use shared::result::Rs;
-use sol_lib::pumpfun;
+use sol_lib::pump;
 use solana_sdk::signature::Signature;
 
 pub async fn handle_events(
     db: &DatabaseConnection,
     signature: Signature,
     timestamp: i64,
-    events: Vec<pumpfun::utils::Event>,
+    events: Vec<pump::utils::Event>,
 ) -> Rs<()> {
     let iter = events
         .into_iter()
@@ -25,7 +25,7 @@ async fn handle_event(
     signature: Signature,
     log_ix: i32,
     timestamp: i64,
-    _event: pumpfun::utils::Event,
+    _event: pump::utils::Event,
 ) -> Rs<()> {
     if log_memos::is_existed(db, signature, log_ix).await? {
         return Ok(());

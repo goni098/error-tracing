@@ -4,7 +4,7 @@ use database::repositories;
 use database::repositories::settings::Setting;
 use database::sea_orm::DatabaseConnection;
 use shared::{env::Env, result::Rs};
-use sol_lib::pumpfun;
+use sol_lib::pump;
 use solana_client::nonblocking::rpc_client::RpcClient;
 use solana_commitment_config::CommitmentConfig;
 use solana_sdk::signature::Signature;
@@ -34,7 +34,7 @@ async fn main() -> Rs<()> {
     let db = database::establish_connection(&db_url).await?;
     let mut cursor = load_or_init_cursor(&db, &client).await?;
 
-    tracing::info!("Event scanner started on {}", pumpfun::ID);
+    tracing::info!("Event scanner started on {}", pump::ID);
     tracing::info!("Starting from signature {}", cursor);
 
     loop {

@@ -8,7 +8,7 @@ use database::sea_orm::DatabaseConnection;
 use fastwebsockets::{Frame, OpCode, Payload, WebSocketError};
 use hyper::Uri;
 use shared::{env::Env, result::Rs};
-use sol_lib::pumpfun;
+use sol_lib::pump;
 use solana_client::rpc_config::{
     CommitmentConfig, RpcTransactionLogsConfig, RpcTransactionLogsFilter,
 };
@@ -52,7 +52,7 @@ async fn bootstrap(db: &DatabaseConnection, uri: &Uri) -> Result<(), WebSocketEr
     let mut ws = ws_client::connect(uri).await?;
     tracing::info!("WebSocket connected {}", uri);
 
-    let filter = RpcTransactionLogsFilter::Mentions(vec![pumpfun::ID.to_string()]);
+    let filter = RpcTransactionLogsFilter::Mentions(vec![pump::ID.to_string()]);
 
     let config = RpcTransactionLogsConfig {
         commitment: Some(COMMITMENT),

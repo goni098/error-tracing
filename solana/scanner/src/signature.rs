@@ -1,5 +1,5 @@
 use shared::result::Rs;
-use sol_lib::pumpfun;
+use sol_lib::pump;
 use solana_client::rpc_response::RpcConfirmedTransactionStatusWithSignature;
 use solana_client::{
     nonblocking::rpc_client::RpcClient, rpc_client::GetConfirmedSignaturesForAddress2Config,
@@ -14,7 +14,7 @@ pub async fn retrieve_txs(
 ) -> Rs<Vec<RpcConfirmedTransactionStatusWithSignature>> {
     let mut page = client
         .get_signatures_for_address_with_config(
-            &pumpfun::ID,
+            &pump::ID,
             GetConfirmedSignaturesForAddress2Config {
                 commitment: Some(COMMITMENT),
                 until: Some(*cursor),
@@ -34,7 +34,7 @@ pub async fn retrieve_txs(
     loop {
         let order_page = client
             .get_signatures_for_address_with_config(
-                &pumpfun::ID,
+                &pump::ID,
                 GetConfirmedSignaturesForAddress2Config {
                     commitment: Some(COMMITMENT),
                     until: Some(*cursor),
@@ -60,7 +60,7 @@ pub async fn get_the_first_signature(client: &RpcClient) -> Rs<Option<Signature>
     loop {
         let page = client
             .get_signatures_for_address_with_config(
-                &pumpfun::ID,
+                &pump::ID,
                 GetConfirmedSignaturesForAddress2Config {
                     commitment: Some(COMMITMENT),
                     before,

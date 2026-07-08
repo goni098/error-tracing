@@ -1,6 +1,6 @@
 use database::sea_orm::{DatabaseConnection, sea_query::prelude::Utc};
 use shared::result::Rs;
-use sol_lib::pumpfun;
+use sol_lib::pump;
 use solana_client::rpc_response::{Response, RpcLogsResponse};
 use solana_sdk::signature::Signature;
 
@@ -20,7 +20,7 @@ pub async fn handle_log_from_ws(
         return Ok(None);
     }
 
-    let events = pumpfun::utils::Event::from_logs(&res.value.logs);
+    let events = pump::utils::Event::from_logs(&res.value.logs);
 
     solana_stream::handle_events(db, signature, Utc::now().timestamp(), events).await?;
 

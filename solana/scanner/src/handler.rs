@@ -1,7 +1,7 @@
 use database::sea_orm::DatabaseConnection;
 use futures_util::future::join_all;
 use shared::result::Rs;
-use sol_lib::pumpfun;
+use sol_lib::pump;
 use solana_client::rpc_response::{OptionSerializer, RpcConfirmedTransactionStatusWithSignature};
 use solana_client::{nonblocking::rpc_client::RpcClient, rpc_config::RpcTransactionConfig};
 
@@ -48,7 +48,7 @@ async fn handle_tx(
         && let OptionSerializer::Some(logs) = meta.log_messages
     {
         let timestamp = txn.block_time.unwrap_or_default();
-        let events = pumpfun::utils::Event::from_logs(logs);
+        let events = pump::utils::Event::from_logs(logs);
 
         solana_stream::handle_events(db, signature, timestamp, events).await?;
     }
